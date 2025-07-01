@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Smart Aquarium</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body class="index-page">
+    <nav>
+      <div class="nav-brand">Smart Aquarium</div>
+      <div class="nav-actions">
+        {% if username %}
+        <span class="user-greeting">Hi, {{ username }}</span>
+        <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
+        {% else %}
+        <button id="openLoginBtn" class="btn-login">Login</button>
+        <button id="openRegisterBtn" class="btn-register">Register</button>
+        {% endif %}
+      </div>
+    </nav>
+
+    <main class="hero-section">
+      <div class="hero-content">
+        <h1>Smart Aquarium<br />Angle Fish Monitoring</h1>
+        <p class="hero-subtitle">
+          Pantau kualitas air akuarium ikan manfish secara real-time dengan
+          mudah dan akurat.
+        </p>
+        <div class="hero-buttons">
+          <a
+            href="{{ url_for('monitoring') }}"
+            class="btn-choice"
+            data-protected="true"
+            >Monitoring</a
+          >
+          <a
+            href="{{ url_for('history') }}"
+            class="btn-choice"
+            data-protected="true"
+            >History</a
+          >
+        </div>
+      </div>
+    </main>
+
+    <footer>&copy; 2025 Smart Aquarium | Sistem Monitoring Ikan Manfish</footer>
+
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal">
+        <button class="close-btn" id="closeModalBtn">&times;</button>
+        <div class="tabs">
+          <span class="tab active" id="tabLogin">Login</span>
+          <span class="tab" id="tabRegister">Register</span>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" method="POST" action="{{ url_for('login') }}">
+          <h2>Login</h2>
+          <input type="text" name="username" placeholder="Username" required />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+          />
+          <button type="submit">Login</button>
+        </form>
+
+        <!-- Register Form -->
+        <form
+          id="register_user"
+          method="POST"
+          action="{{ url_for('register_user') }}"
+          style="display: none"
+        >
+          <h2>Register</h2>
+          <input type="text" name="username" placeholder="Username" required />
+          <input type="email" name="email" placeholder="Email" required />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+          />
+          <button type="submit">Register</button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      window.isLoggedIn = {{ 'true' if username else 'false' }};
+    </script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>
