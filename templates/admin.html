@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel - Manajemen User</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <div class="navbar">
+      <h2>Admin Panel</h2>
+      <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
+    </div>
+
+    <div class="admin-container">
+      <h1>Dashboard Admin - Data User</h1>
+
+      <!-- TABEL DATA USER -->
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <form method="POST">
+              <input type="hidden" name="user_id" value="{{ user._id }}" />
+              <td>
+                <input type="text" name="id" value="{{ user._id }}" readonly />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  name="username"
+                  value="{{ user.username }}"
+                />
+              </td>
+              <td>
+                <input type="email" name="email" value="{{ user.email }}" />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  name="password"
+                  value="{{ user.password }}"
+                />
+              </td>
+              <td>
+                <div class="action-buttons">
+                  <button type="submit" name="action" value="edit">Edit</button>
+                  <button
+                    type="submit"
+                    name="action"
+                    value="delete"
+                    onclick="return confirm('Yakin hapus user ini?')"
+                  >
+                    Hapus
+                  </button>
+                </div>
+              </td>
+            </form>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <div class="add-user-form">
+        <h2>Tambah User Baru</h2>
+        <form method="POST">
+          <input type="hidden" name="action" value="add" />
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            required
+          /><br />
+          <input type="email" name="email" placeholder="Email" required /><br />
+          <input
+            type="text"
+            name="password"
+            placeholder="Password"
+            required
+          /><br />
+          <button type="submit">Tambah</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

@@ -41,23 +41,26 @@
           🗑️ Hapus Semua Riwayat
         </button>
       </form>
-
-      <table id="history-table" aria-label="History Monitoring Table">
-        <thead>
-          <tr>
-            <th onclick="sortTable(0)">Timestamp ⬍</th>
-            <th onclick="sortTable(1)">TDS (ppm) ⬍</th>
-          </tr>
-        </thead>
-        <tbody id="history-body">
-          <tr>
-            <td colspan="4">Loading data...</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-wrapper">
+        <table id="history-table" aria-label="History Monitoring Table">
+          <thead>
+            <tr>
+              <th onclick="sortTable(0)">Timestamp ⬍</th>
+              <th onclick="sortTable(1)">TDS (ppm) ⬍</th>
+            </tr>
+          </thead>
+          <tbody id="history-body">
+            <tr>
+              <td colspan="4">Loading data...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </main>
 
-    <footer>&copy; 2025 Smart Akuarium</footer>
+    <footer>
+      &copy; 2025 Febriansyah — Universitas Muhammdiyah Prof. Dr. Hamka
+    </footer>
 
     <script>
       async function fetchHistory() {

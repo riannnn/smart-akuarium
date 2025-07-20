@@ -9,6 +9,12 @@
       href="{{ url_for('static', filename='style.css') }}"
     />
   </head>
+
+  <div id="toast-container"></div>
+  <script>
+    const flashMessages = {{ get_flashed_messages() | tojson | safe }};
+  </script>
+
   <body class="index-page">
     <nav>
       <div class="nav-brand">Smart Aquarium</div>
@@ -25,11 +31,7 @@
 
     <main class="hero-section">
       <div class="hero-content">
-        <h1>Smart Aquarium<br />Angle Fish Monitoring</h1>
-        <p class="hero-subtitle">
-          Pantau kualitas air akuarium ikan manfish secara real-time dengan
-          mudah dan akurat.
-        </p>
+        <h1>Total Dissolved Solids<br />Angle Fish Monitoring</h1>
         <div class="hero-buttons">
           <a
             href="{{ url_for('monitoring') }}"
@@ -47,7 +49,9 @@
       </div>
     </main>
 
-    <footer>&copy; 2025 Smart Aquarium | Sistem Monitoring Ikan Manfish</footer>
+    <footer>
+      &copy; 2025 Febriansyah — Universitas Muhammadiyah Prof. Dr. Hamka
+    </footer>
 
     <div class="modal-overlay" id="modalOverlay">
       <div class="modal">
@@ -58,15 +62,35 @@
         </div>
 
         <!-- Login Form -->
-        <form id="loginForm" method="POST" action="{{ url_for('login') }}">
+        <form
+          id="loginForm"
+          method="POST"
+          action="{{ url_for('login') }}"
+          autocomplete="off"
+        >
           <h2>Login</h2>
-          <input type="text" name="username" placeholder="Username" required />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            required
-          />
+          <div class="password-wrapper">
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              autocomplete="off"
+              required
+            />
+          </div>
+          <div class="password-wrapper">
+            <input
+              type="password"
+              id="loginPassword"
+              name="password"
+              placeholder="Password"
+              autocomplete="new-password"
+              required
+            />
+            <span class="toggle-password" data-target="loginPassword"
+              >&#128065;</span
+            >
+          </div>
           <button type="submit">Login</button>
         </form>
 
@@ -76,17 +100,56 @@
           method="POST"
           action="{{ url_for('register_user') }}"
           style="display: none"
+          autocomplete="off"
         >
           <h2>Register</h2>
-          <input type="text" name="username" placeholder="Username" required />
-          <input type="email" name="email" placeholder="Email" required />
           <input
-            type="password"
-            name="password"
-            placeholder="Password"
+            type="text"
+            name="username"
+            placeholder="Username"
+            autocomplete="off"
             required
           />
-          <button type="submit">Register</button>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            autocomplete="off"
+            required
+          />
+          <div class="password-wrapper">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Password"
+              autocomplete="new-password"
+              required
+            />
+            <span class="toggle-password" data-target="password"
+              >&#128065;</span
+            >
+          </div>
+          <div class="password-wrapper">
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              placeholder="Konfirmasi Password"
+              autocomplete="new-password"
+              required
+            />
+            <span class="toggle-password" data-target="confirmPassword"
+              >&#128065;</span
+            >
+          </div>
+          <p
+            id="passwordError"
+            style="color: red; font-size: 0.9em; margin-top: 5px; display: none"
+          >
+            Konfirmasi password tidak sesuai!
+          </p>
+          <button type="submit" id="registerButton">Register</button>
         </form>
       </div>
     </div>
