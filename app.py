@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request, redirect, session, url_for, jsonify, flash
 from pymongo import MongoClient
 from datetime import datetime
@@ -6,8 +7,9 @@ from bson.objectid import ObjectId
 app = Flask(__name__)
 app.secret_key = 'rahasia'
 
-# Koneksi ke MongoDB
-client = MongoClient('mongodb://localhost:27017/')
+# Koneksi ke MongoDB via ENV (Railway)
+MONGODB_URI = os.environ.get("MONGODB_URI", "mongodb://localhost:27017/")
+client = MongoClient(MONGODB_URI)
 db = client['smart_akuarium']
 user_collection = db['users']
 monitoring_collection = db['monitoring']
@@ -18,7 +20,6 @@ THRESHOLDS = {
     "tds_max": 500
 }
 
-# Simulasi data sensor (dummy)
 def get_sensor_data():
     return {
         "tds": 250,
@@ -31,7 +32,6 @@ def is_anomaly(data):
     except (KeyError, ValueError):
         return False
     return tds < THRESHOLDS['tds_min'] or tds > THRESHOLDS['tds_max']
-
 
 @app.route("/")
 def index():
@@ -238,4 +238,5 @@ def api_tds():
         return jsonify({'message': 'Failed to insert data'}), 500
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
